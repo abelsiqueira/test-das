@@ -1,4 +1,4 @@
-name: Connect to eduVPN
+name: CI on DAS-5
 
 on:
   push:
@@ -12,26 +12,20 @@ jobs:
       - name: Install Open VPN
         run: sudo apt-get install openvpn openvpn-systemd-resolved
       - name: Connect VPN
-        uses: golfzaptw/action-connect-ovpn@2.0.1
         id: connect_vpn
-        with:
-          PING_URL: '127.0.0.1'
-          FILE_OVPN: '.github/vpn/cert-16-02-2022.ovpn'
-          # SECRET: ${{ secrets.SECRET_USERNAME_PASSWORD }}
-          TLS_KEY: ${{ secrets.TLS_KEY }}
-        env:
-          CA_CRT: ${{ secrets.CA_CRT}}
-          USER_CRT: ${{ secrets.USER_CRT }}
-          USER_KEY: ${{ secrets.USER_KEY }}
-      - name: Check Connect VPN
-        run: echo ${{ steps.connect_vpn.outputs.STATUS }}
+        timeout-minutes: 1
+        run: |
+          echo "${{ secrets.OVPN_FILE}}" | base64 -d > ./cert.ovpn
+          sudo openvpn --config ./cert.ovpn --daemon
+          until ip -f inet addr show tun0; do sleep 5; ip a; done
+          echo ::set-output name=tunnel_ip::$(ip -f inet addr show tun0 | sed -En -e 's/.*inet ([0-9.]+).*/\1/p')
       - name: run ssh commands
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
-          script: whoami
+          script: echo -e "# Connection succesful\n - $(date)\n - ${{ steps.connect_vpn.outputs.tunnel_ip }}" > vpn-connected
       - name: kill vpn
         if: always()
         run: sudo killall openvpn
