@@ -32,6 +32,7 @@ jobs:
           password: ${{ secrets.PASSWORD }}
           source: .
           target: ci4gpu/
+          overwrite: true
       - name: run ssh commands
         uses: appleboy/ssh-action@master
         with:
