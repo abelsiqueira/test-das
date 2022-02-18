@@ -31,14 +31,14 @@ jobs:
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
           source: .github/script.sh
-          target: ci4gpu-script.sh
+          target: ci4gpu/
       - name: run ssh commands
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
-          script: sh ci4gpu-script.sh
+          script: sh ci4gpu/script.sh
           script_stop: true # Stop after first failure
       - name: kill vpn
         if: always()
