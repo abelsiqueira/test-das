@@ -38,7 +38,7 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
-          script: sh ci4gpu/script.sh
+          script: sh ci4gpu/.github/script.sh
           script_stop: true # Stop after first failure
       - name: kill vpn
         if: always()
