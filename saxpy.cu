@@ -50,7 +50,7 @@ int main(void) {
   float maxError = 0.0f;
   for (int i = 0; i < N; i++)
     maxError = max(maxError, abs(y[i] - 4.0f));
-  printf("Max error: %f\n", maxError);
+  printf("Max error (should be 0): %f\n", maxError);
 
   cudaFree(d_x);
   cudaFree(d_y);
