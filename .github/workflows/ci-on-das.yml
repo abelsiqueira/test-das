@@ -24,13 +24,21 @@ jobs:
           sudo openvpn --config ./cert.ovpn --daemon
           until ip -f inet addr show tun0; do sleep 5; ip a; done
           echo ::set-output name=tunnel_ip::$(ip -f inet addr show tun0 | sed -En -e 's/.*inet ([0-9.]+).*/\1/p')
+      - name: Copy script.sh via ssh
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          source: .github/script.sh
+          target: ci4gpu-script.sh
       - name: run ssh commands
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
-          script: sh .github/script.sh
+          script: sh ci4gpu-script.sh
           script_stop: true # Stop after first failure
       - name: kill vpn
         if: always()
