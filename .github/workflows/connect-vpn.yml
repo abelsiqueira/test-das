@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  connect-open-vpn:
+  connect-open-vpn-and-run-ssh-commands:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
@@ -25,6 +25,14 @@ jobs:
           USER_KEY: ${{ secrets.USER_KEY }}
       - name: Check Connect VPN
         run: echo ${{ steps.connect_vpn.outputs.STATUS }}
+      - name: run ssh commands
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          script: whoami
       - name: kill vpn
         if: always()
         run: sudo killall openvpn
