@@ -2,6 +2,11 @@ name: CI on DAS-5
 
 on:
   push:
+    branches:
+    - main
+  pull_request:
+    branches:
+    - main
   workflow_dispatch:
 
 jobs:
@@ -25,7 +30,8 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
-          script: echo -e "# Connection succesful\n - $(date)\n - ${{ steps.connect_vpn.outputs.tunnel_ip }}" > vpn-connected
+          script: base .github/script.sh
+          script_stop: true # Stop after first failure
       - name: kill vpn
         if: always()
         run: sudo killall openvpn
