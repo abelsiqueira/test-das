@@ -1,3 +1,10 @@
+name: Connect to eduVPN
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
   connect-open-vpn:
     runs-on: ubuntu-latest
     steps:
