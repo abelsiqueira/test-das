@@ -10,4 +10,4 @@ Testing DAS-5 action to log in and create job
   - PASSWORD - with **your** password
   - OVPN_FILE - with the encoded OVPN file.
 - Adjust .github/script.sh as needed
-- The file `ci4gpu.log` will be created or updated with the run information.
+- The file `ci4gpu/ci4gpu.log` will be created or updated with the run information.

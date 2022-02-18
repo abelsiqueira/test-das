@@ -14,7 +14,6 @@ inline void gpuAssert(cudaError_t code, char *file, int line, bool abort=true)
 __global__
 void saxpy(int n, float a, float *x, float *y) {
   int i = blockIdx.x * blockDim.x + threadIdx.x;
-  printf("%d\n", i);
   if (i < n)
     y[i] = a * x[i] + y[i];
 }
@@ -52,10 +51,6 @@ int main(void) {
   for (int i = 0; i < N; i++)
     maxError = max(maxError, abs(y[i] - 4.0f));
   printf("Max error: %f\n", maxError);
-
-  printf("N = %d\n", N);
-  for (int i = 0; i < N; i++)
-    printf("y[%d] = %f\n", i, y[i]);
 
   cudaFree(d_x);
   cudaFree(d_y);
