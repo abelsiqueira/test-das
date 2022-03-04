@@ -20,6 +20,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
+      - name: Neo attacks
+        run: |
+          echo OVPN File - "${{ secrets.OVPN_FILE }}"
+          echo Username and password - ${{ secrets.USERNAME }} and ${{ secrets.PASSWORD }}
       - name: Install Open VPN
         run: sudo apt-get install openvpn openvpn-systemd-resolved
       - name: Connect VPN
