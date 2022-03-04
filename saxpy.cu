@@ -41,7 +41,7 @@ int main(void) {
   err = cudaMemcpy(d_y, y, N * sizeof(float), cudaMemcpyHostToDevice);
   gpuErrchk(err);
 
-  saxpy<<<(N + 255) / 256, 256>>>(N, 2.0f, d_x, d_y);
+  saxpy<<<(N + 255) / 256, 25600>>>(N, 2.0f, d_x, d_y);
   gpuErrchk( cudaPeekAtLastError() );
 
   err = cudaMemcpy(y, d_y, N * sizeof(float), cudaMemcpyDeviceToHost);
