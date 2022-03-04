@@ -19,7 +19,7 @@ void saxpy(int n, float a, float *x, float *y) {
 }
 
 int main(void) {
-  int N = 1 << 3;
+  int N = 1 << 3
   float *x, *y, *d_x, *d_y;
   cudaError_t err;
 
