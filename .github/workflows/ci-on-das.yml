@@ -14,7 +14,6 @@ permissions:
 
 jobs:
   connect-open-vpn-and-run-ssh-commands:
-    if: github.event.pull_request.head.repo.full_name == github.repository
     env:
       folder-name: ci4gpu-${{ github.run_id }}
     runs-on: ubuntu-latest
